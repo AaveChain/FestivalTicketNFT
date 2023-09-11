@@ -232,13 +232,67 @@ That's it! You've successfully explained how to buy tickets from the organizer a
 **You can buy tickets from the organizer at a fixed price in the currency token.**
 
 In our code, the buyTicket function allows users to purchase tickets from the organizer at a fixed price specified by the ticketPrice function. The fixed price is set to 1 ether, and users can buy tickets by sending Ether equal to or exceeding this fixed price. So, this condition is met.
+```bash
+it("should allow buying tickets from the organizer at a fixed price", async () => {
+    const ticketPrice = await ticketContract.ticketPrice();
 
+    await ticketContract.buyTicket({ from: buyer1, value: ticketPrice });
+
+    const buyer1TicketBalance = await ticketContract.balanceOf(buyer1);
+
+    assert.equal(buyer1TicketBalance.toNumber(), 1, "Buyer1 should own 1 ticket");
+  });
+```
 **You can buy and sell tickets to others, but the price can never be higher than 110% of the previous sale.**
 
 In our code, the sellTicket function checks that the selling price (price) does not exceed 110% of the previous sale price (maxPrice). If the price is within this limit, the ticket can be sold. So, this condition is met.
+```bash
+it("should allow buying and selling tickets to others within price limit", async () => {
+    const ticketPrice = await ticketContract.ticketPrice();
+    const increasedPrice = ticketPrice.muln(110).divn(100); // Calculate increased price
 
+    await ticketContract.buyTicket({ from: buyer1, value: ticketPrice });
+
+    await ticketContract.sellTicket(buyer2, 1, increasedPrice, { from: buyer1 });
+
+    const buyer1Balance = await currencyContract.balanceOf(buyer1);
+    const buyer2Balance = await currencyContract.balanceOf(buyer2);
+    const buyer2TicketBalance = await ticketContract.balanceOf(buyer2);
+
+    assert.equal(buyer1Balance.toString(), ticketPrice.toString(), "Buyer1 should receive payment for the ticket");
+    assert.equal(buyer2Balance.toString(), increasedPrice.toString(), "Buyer2 should pay the correct price");
+    assert.equal(buyer2TicketBalance.toNumber(), 1, "Buyer2 should own 1 ticket");
+  });
+```
+```bash
+it("should not allow selling tickets above the price limit", async () => {
+    const ticketPrice = await ticketContract.ticketPrice();
+    const exceededPrice = ticketPrice.muln(110).divn(100).addn(1); // Exceeds the price limit
+
+    await ticketContract.buyTicket({ from: buyer1, value: ticketPrice });
+
+    try {
+      await ticketContract.sellTicket(buyer2, 1, exceededPrice, { from: buyer1 });
+      assert.fail("Transaction should revert");
+    } catch (error) {
+      assert(error.toString().includes("Price cannot exceed 110% of the previous sale price"), "Error message should match");
+    }
+  });
+```
 **Add a monetization option for the organizer in the secondary market sales.**
 
 In our code, when a ticket is sold in the secondary market (i.e., when someone other than the organizer sells a ticket), the organizer receives a cut defined by the organizerCutPercentage, which is 5% in our example. This percentage is deducted from the selling price, and the remaining proceeds go to the seller. So, this condition is also met.
+```bash
+it("should allow the organizer to set a resale fee", async () => {
+    const newCutPercentage = 10; // Set a new resale fee of 10%
+
+    await ticketContract.setOrganizerCutPercentage(newCutPercentage, { from: organizer });
+
+    const cutPercentage = await ticketContract.organizerCutPercentage();
+
+    assert.equal(cutPercentage.toNumber(), newCutPercentage, "Resale fee should be updated");
+  });
+});
+```
 
 
