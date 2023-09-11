@@ -65,7 +65,7 @@ To run and deploy the smart contract, follow these steps:
 
 **Set up an Ethereum Development Environment:**
 
-Install Node.js and npm (Node Package Manager) if you haven't already.
+Install Node.js and npm (Node Package Manager) if we haven't already.
 
 
 **Install Truffle with Dependencies:**
@@ -80,7 +80,7 @@ npm install -g truffle
 truffle init
 ```
 
-In your project directory, run the following commands to install required dependencies:
+In our project directory, run the following commands to install required dependencies:
 
 ```bash
 npm install @openzeppelin/contracts
@@ -91,7 +91,7 @@ npm install @openzeppelin/contracts
 
 **Compile the Contract:**
 
-Open your terminal and navigate to the project directory containing your Truffle project.
+Open our terminal and navigate to the project directory containing our Truffle project.
 
 Run the following command to compile the contract:
 
@@ -133,10 +133,10 @@ In the deployed contract instance (under the "Deployed Contracts" section), find
 Click on the "buyTicket" function.
 Now, let's explain what values to enter:
 
-In the "from" field: Enter your Ethereum address. This is the address that will be used to buy the ticket. For example, you can use 0xYourAddress.
+In the "from" field: Enter our Ethereum address. This is the address that will be used to buy the ticket. For example, you can use 0xourAddress.
 Example:
 
-In "from": 0xYourAddress (Replace YourAddress with your actual Ethereum address)
+In "from": 0xourAddress (Replace ourAddress with our actual Ethereum address)
 Click the "transact" button to execute the transaction.
 
 
@@ -145,7 +145,7 @@ Click the "transact" button to execute the transaction.
 **Approve the Smart Contract to Spend Ether:**
 
 Use a wallet like MetaMask or any Ethereum wallet that supports ERC-20 tokens.
-Go to your wallet's "Assets" or "Tokens" section.
+Go to our wallet's "Assets" or "Tokens" section.
 Find the currency token (Ether) you want to use to buy the ticket.
 Look for the "Approve" or "Allowance" option for this token.
 Approve the smart contract's address (the address of the FestivalTicketNFT contract) to spend the amount you specified as the ticket price (in this case, "1100000000000000000" Wei or 1.1 Ether).
@@ -153,14 +153,14 @@ Approve the smart contract's address (the address of the FestivalTicketNFT contr
 
 **Execute the sellTicket Transaction Again:**
 
-After approving the allowance, go back to Remix or your preferred method of interacting with the smart contract.
+After approving the allowance, go back to Remix or our preferred method of interacting with the smart contract.
 In the "sellTicket" function, use the same values you provided earlier:
 "to" should be the buyer's address.
 "tokenId" should be the ID of the ticket you want to sell.
 "price" should still be "1100000000000000000" (1.1 Ether).
 Click the "transact" button to execute the transaction.
 
-Now, with the allowance approved, the smart contract will be able to transfer the specified amount of Ether from your address to the contract when you execute the "sellTicket" function. This should allow you to complete the ticket sale successfully.
+Now, with the allowance approved, the smart contract will be able to transfer the specified amount of Ether from our address to the contract when you execute the "sellTicket" function. This should allow you to complete the ticket sale successfully.
 
 In this step, you'll sell tickets to other buyers at a price you specify. Here's the flow:
 
@@ -186,21 +186,21 @@ In the "price" field: Enter the price at which you want to sell the ticket in Et
 
 In "price": 1 ether (This means you are selling the ticket for 1 Ether)
 Click the "transact" button to execute the transaction.
-That's it! You've successfully explained how to buy tickets from the organizer and sell tickets to others within the specified price limit. Make sure to replace the example addresses (0xYourAddress and 0xBuyerAddress) with actual Ethereum addresses when you interact with the contract.
+That's it! You've successfully explained how to buy tickets from the organizer and sell tickets to others within the specified price limit. Make sure to replace the example addresses (0xourAddress and 0xBuyerAddress) with actual Ethereum addresses when you interact with the contract.
 
 
 **Cases:**
 
 **You can buy tickets from the organizer at a fixed price in the currency token.**
 
-In your code, the buyTicket function allows users to purchase tickets from the organizer at a fixed price specified by the ticketPrice function. The fixed price is set to 1 ether, and users can buy tickets by sending Ether equal to or exceeding this fixed price. So, this condition is met.
+In our code, the buyTicket function allows users to purchase tickets from the organizer at a fixed price specified by the ticketPrice function. The fixed price is set to 1 ether, and users can buy tickets by sending Ether equal to or exceeding this fixed price. So, this condition is met.
 
 **You can buy and sell tickets to others, but the price can never be higher than 110% of the previous sale.**
 
-In your code, the sellTicket function checks that the selling price (price) does not exceed 110% of the previous sale price (maxPrice). If the price is within this limit, the ticket can be sold. So, this condition is met.
+In our code, the sellTicket function checks that the selling price (price) does not exceed 110% of the previous sale price (maxPrice). If the price is within this limit, the ticket can be sold. So, this condition is met.
 
 **Add a monetization option for the organizer in the secondary market sales.**
 
-In your code, when a ticket is sold in the secondary market (i.e., when someone other than the organizer sells a ticket), the organizer receives a cut defined by the organizerCutPercentage, which is 5% in your example. This percentage is deducted from the selling price, and the remaining proceeds go to the seller. So, this condition is also met.
+In our code, when a ticket is sold in the secondary market (i.e., when someone other than the organizer sells a ticket), the organizer receives a cut defined by the organizerCutPercentage, which is 5% in our example. This percentage is deducted from the selling price, and the remaining proceeds go to the seller. So, this condition is also met.
 
 
