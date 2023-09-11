@@ -21,6 +21,11 @@ A non-fungible token that represents tickets for a festival and a fungible curre
 ```
 **Contract Overview:**
 
+**CurrencyToken.sol**
+
+Simple ERC20 Token contract, we can use openzeppelin wizards.
+
+**FestivalTicketNFT.sol**
 
 Our FestivalTicketNFT contract allows users to buy tickets from the organizer at a fixed price in the currency token (Ether) and sell these tickets to others in the secondary market. The contract also enforces that the secondary market price cannot exceed 110% of the previous sale price. Additionally, a portion of the sale price (5%) goes to the organizer as a monetization option.
 
@@ -29,18 +34,33 @@ The smart contract FestivalTicketNFT is designed to create and manage non-fungib
 
 **Constructor:**
 
-The constructor initializes the contract with the address of the currency token (fungible token) that will be used for transactions.
-It sets the contract deployer's address as the organizer.
+The constructor initializes the contract when it is deployed. It takes the address of the currency token (_currencyToken) as an argument and sets it as the currency token. It also initializes the organizer variable with the address of the contract deployer.
 
+**State Variables:**
 State Variables:
 
 **maxTickets:** Maximum number of tickets allowed (1000 in this example).
+
 **currencyToken:** Address of the fungible currency token.
+
 **organizerCutPercentage:** Percentage (5% in this example) of the sale price that goes to the organizer in secondary market sales.
+
 **priceIncreasePercentage:** Maximum allowed price increase for a ticket (110% in this example).
+
 **organizer:** Address of the festival organizer.
+
 **currentTicketId:** Current ticket ID being used for minting tickets.
+
 **tickets:** A mapping to store ticket information, including price and owner.
+
+**Struct:**
+
+**Ticket:** A struct that represents a ticket with two properties: price (the price of the ticket) and owner (the address of the ticket owner).
+
+**Mapping:**
+
+**tickets:** A mapping that associates a ticket ID (represented as a uint256) with a Ticket struct. This mapping is used to store information about each ticket.
+
 
 **Modifiers:**
 
@@ -101,15 +121,33 @@ truffle compile
 
 **Configure the Sepolia Testnet:**
 
-In the **truffle-config.js (or truffle.js)** file, configure the Sepolia Testnet as a custom network. We'll need to specify the network's URL, chain ID, and provide the account mnemonic phrase or private key for deploying.
+In the **truffle-config.js (or truffle.js)** file, configure the Sepolia Testnet as a custom network. We'll need to specify the network's URL, chain ID, and provide the account mnemonic phrase or private key for deploying. Replace the private key and Replace with your Infura API key on truffle-config.js.
 
 **Migrate the Contract:**
 
-Run the migration to deploy the contract on the Sepolia Testnet. Use the --network flag to specify the target network. For example:
+**Truffle Migration Script (2_deploy_contracts.js)**
+
+This script deploys both the ERC20 token (currency token) and the FestivalTicketNFT contract. Make sure to replace the addresses of the ERC20 token and the organizer with your actual values. Create or update our migration script (2_deploy_contracts.js) to deploy the CurrencyToken (ERC20) and FestivalTicketNFT contracts, as shown in the provided migration script. Run the migration to deploy the contract on the Sepolia Testnet. Use the --network flag to specify the target network. For example:
 
 
 ```bash
 truffle migrate --network sepolia
+```
+**Compile and Migrate:**
+
+Open a terminal in the project directory.
+Compile our contracts using the command: truffle compile.
+Deploy our contracts to the Sepolia testnet using: truffle migrate --network sepolia. Ensure that you have configured the sepolia network in your truffle-config.js file with the appropriate RPC endpoint and account details.
+
+**Testing:**
+
+Create a test file (e.g., FestivalTicketNFT.test.js) and write test cases for various contract functionalities as shown in the provided testing script.
+
+**Run Tests:**
+
+Run your tests using Truffle by executing the command: 
+```bash
+truffle test
 ```
 
 **Test Cases:**
