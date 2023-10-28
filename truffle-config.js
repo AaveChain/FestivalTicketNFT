@@ -142,13 +142,13 @@
 
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const privateKeys = ['019a6869da31f4f0d4a86e88c80ef9489dc4712741f9b5c0e13825ef396fe7ed']; // Replace with your private key
+const privateKeys = ['...']; // Replace with your private key
 
 module.exports = {
   networks: {
     sepolia: {
       provider: function () {
-        return new HDWalletProvider(privateKeys, 'https://sepolia.infura.io/v3/fca9721f27b14d46beb8aabc7628fee6'); // Replace with your Infura API key
+        return new HDWalletProvider(privateKeys, '......'); // Replace with your Infura API key
       },
       network_id: 11155111, // Sepolia testnet network ID (this can vary)
       gas: 5500000, // Gas limit (adjust as needed)
